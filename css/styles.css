@@ -151,12 +151,13 @@ button {
     left: 0;
     right: 0;
     top: 0;
-    height: 90%;
+    height: 80%;
     transform-origin: 50% 0%;
     opacity: 1;
     transform: none;
     z-index: 3;
-    transition: transform 1.0s var(--ease-out-quart), opacity 0.3s ease;
+    /* durasi panjang + easing spring-like agar smooth seperti Framer */
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
 }
 
 .env-variant .env-top img {
@@ -214,28 +215,28 @@ button {
 /* ── OPEN STATE: top flap buka dulu, baru yang lain slide down ── */
 .envelope-overlay.open .env-top {
     transform: rotateX(-180deg);
-    transition: transform 1.0s var(--ease-out-quart) 0s;
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0s;
 }
 
 .envelope-overlay.open .env-invite-text {
     opacity: 0;
-    transition: opacity 0.2s ease 0s;
+    transition: opacity 0.3s ease 0s;
 }
 
-/* right, left, bottom slide SETELAH flap selesai buka (~1s) */
-.envelope-overlay.open .env-right {
+/* slide down setelah flap selesai (~1.8s), masing-masing smooth */
+.envelope-overlay.open .env-bottom {
     transform: translateY(110vh);
-    transition: transform 0.9s var(--ease-out-quart) 1.1s;
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.6s;
 }
 
 .envelope-overlay.open .env-left {
     transform: translateY(110vh);
-    transition: transform 0.9s var(--ease-out-quart) 1.2s;
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.7s;
 }
 
-.envelope-overlay.open .env-bottom {
+.envelope-overlay.open .env-right {
     transform: translateY(110vh);
-    transition: transform 0.9s var(--ease-out-quart) 1.0s;
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.8s;
 }
 
 /* ===== Scroll Reveal Animations ===== */

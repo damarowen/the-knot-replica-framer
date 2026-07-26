@@ -13,27 +13,35 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, 200);
 
-    // Phase 2: Open envelope — top flap mulai buka
+    // Phase 1: Animate "You're invited to" letters
+    // setTimeout(() => {
+    //     envelopeOverlay.classList.add('animate');
+    //     inviteLetters.forEach((letter, i) => {
+    //         letter.style.transitionDelay = `${i * 0.04}s`;
+    //     });
+    // }, 200);
+
+    // Phase 2: 3 detik state awal, lalu top flap buka
     setTimeout(() => {
         envelopeOverlay.classList.add('open');
-    }, 1800);
+    }, 3000);
 
-    // Phase 3: Hero image mulai scale saat layer lain mulai slide (~1s setelah open)
+    // Phase 3: Hero mulai scale saat layer lain slide (~1s setelah open)
     setTimeout(() => {
         hero.classList.add('revealed');
-    }, 2900);
+    }, 4100);
 
-    // Phase 4: Hide overlay + show nav + animate hero text (setelah semua layer slide habis)
+    // Phase 4: Hide overlay + show nav + animate hero text (1s setelah semua slide habis)
     setTimeout(() => {
         envelopeOverlay.classList.add('hidden');
         document.getElementById('mainNav').classList.add('visible');
         animateHero();
-    }, 3600);
+    }, 5100);
 
     // Phase 5: Remove overlay dari DOM
     setTimeout(() => {
         envelopeOverlay.style.display = 'none';
-    }, 4600);
+    }, 6100);
 
     // ===== Hero Letter-by-Letter Animation =====
     function animateHero() {
