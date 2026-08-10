@@ -1,47 +1,70 @@
 document.addEventListener('DOMContentLoaded', () => {
     // ===== Envelope Animation Sequence =====
     const envelopeOverlay = document.getElementById('envelopeOverlay');
-    const inviteLetters = document.querySelectorAll('#inviteText .letter');
     const hero = document.querySelector('.hero');
+    const mainNav = document.getElementById('mainNav');
 
-    // Phase 1: Langsung animate "You're invited to" letters — envelope sudah visible di state awal
-    // Delay singkat agar browser selesai render dulu
-    setTimeout(() => {
-        envelopeOverlay.classList.add('animate');
-        inviteLetters.forEach((letter, i) => {
-            letter.style.transitionDelay = `${i * 0.04}s`;
-        });
-    }, 200);
+    // Envelope overlay adalah add-on optional. Kalau ada, jalankan animasi amplop
+    // seperti biasa. Kalau tidak ada, konten utama tetap dianimasikan muncul perlahan.
+    if (envelopeOverlay) {
+        runEnvelopeAnimation();
+    } else {
+        runFallbackAnimation();
+    }
 
-    // Phase 1: Animate "You're invited to" letters
-    // setTimeout(() => {
-    //     envelopeOverlay.classList.add('animate');
-    //     inviteLetters.forEach((letter, i) => {
-    //         letter.style.transitionDelay = `${i * 0.04}s`;
-    //     });
-    // }, 200);
+    function runEnvelopeAnimation() {
+        const inviteLetters = document.querySelectorAll('#inviteText .letter');
 
-    // Phase 2: 3 detik state awal, lalu top flap buka
-    setTimeout(() => {
-        envelopeOverlay.classList.add('open');
-    }, 3000);
+        // Phase 1: Langsung animate "You're invited to" letters — envelope sudah visible di state awal
+        // Delay singkat agar browser selesai render dulu
+        setTimeout(() => {
+            envelopeOverlay.classList.add('animate');
+            inviteLetters.forEach((letter, i) => {
+                letter.style.transitionDelay = `${i * 0.04}s`;
+            });
+        }, 200);
 
-    // Phase 3: Hero mulai scale saat layer lain slide (~1s setelah open)
-    setTimeout(() => {
-        hero.classList.add('revealed');
-    }, 4100);
+        // Phase 2: 3 detik state awal, lalu top flap buka
+        setTimeout(() => {
+            envelopeOverlay.classList.add('open');
+        }, 3000);
 
-    // Phase 4: Hide overlay + show nav + animate hero text (1s setelah semua slide habis)
-    setTimeout(() => {
-        envelopeOverlay.classList.add('hidden');
-        document.getElementById('mainNav').classList.add('visible');
-        animateHero();
-    }, 5100);
+        // Phase 3: Hero mulai scale saat layer lain slide (~1s setelah open)
+        setTimeout(() => {
+            hero.classList.add('revealed');
+        }, 4100);
 
-    // Phase 5: Remove overlay dari DOM
-    setTimeout(() => {
-        envelopeOverlay.style.display = 'none';
-    }, 6100);
+        // Phase 4: Hide overlay + show nav + animate hero text (1s setelah semua slide habis)
+        setTimeout(() => {
+            envelopeOverlay.classList.add('hidden');
+            mainNav.classList.add('visible');
+            animateHero();
+        }, 5100);
+
+        // Phase 5: Remove overlay dari DOM
+        setTimeout(() => {
+            envelopeOverlay.style.display = 'none';
+        }, 6100);
+    }
+
+    function runFallbackAnimation() {
+        // Tanpa overlay: konten utama tetap dianimasikan muncul perlahan.
+
+        // Phase 1: Hero image zoom in
+        setTimeout(() => {
+            hero.classList.add('revealed');
+        }, 0);
+
+        // Phase 2: Navigasi muncul
+        setTimeout(() => {
+            mainNav.classList.add('visible');
+        }, 1000);
+
+        // Phase 3: Hero text letter-by-letter animation
+        setTimeout(() => {
+            animateHero();
+        }, 800);
+    }
 
     // ===== Hero Letter-by-Letter Animation =====
     function animateHero() {
