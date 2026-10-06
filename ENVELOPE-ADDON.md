@@ -1,6 +1,6 @@
 # Envelope Overlay — How To (Reusable Add-On)
 
-Envelope overlay adalah animasi pembuka amplop yang muncul sebelum konten utama halaman. Add-on ini dirancang agar bisa dipasang di website **static HTML** manapun.
+Envelope overlay adalah animasi pembuka amplop yang muncul sebelum konten utama halaman. Add-on ini dirancang agar bisa dipasang di website **static HTML** manapun dengan **3 langkah saja** (copy file → link CSS → script JS). HTML overlay **di-inject otomatis** — tidak perlu menambah blok HTML manual.
 
 ---
 
@@ -52,10 +52,14 @@ Addon terdiri dari 3 lapisan:
 
 | File | Fungsi | Wajib? |
 |------|--------|--------|
-| `envelope.html` | Blok HTML overlay | Ya |
+| `envelope.js` | Logika animasi + template HTML (self-injecting) | Ya |
 | `envelope.css` | Style overlay dan animasi | Ya |
-| `envelope.js` | Logika animasi | Ya |
 | `assets/images/envelope-*.png` | Gambar 4 layer amplop | Ya |
+| `envelope.html` | Referensi struktur HTML (opsional, untuk kustomisasi manual) | Tidak |
+
+> **Self-injecting:** `envelope.js` otomatis menyuntikkan HTML overlay ke `<body>`
+> saat halaman load. Anda tidak perlu menambah blok HTML manual.
+> File `envelope.html` hanya referensi jika ingin mengkustomisasi struktur.
 
 Gambar amplop yang dibutuhkan:
 
@@ -68,7 +72,9 @@ Gambar amplop yang dibutuhkan:
 
 ## Struktur HTML Target
 
-Website target **harus memiliki** minimal elemen-elemen berikut agar addon bisa bekerja:
+Website target **tidak perlu menambahkan blok HTML envelope** — overlay otomatis
+di-inject oleh `envelope.js`. Yang **harus ada** di website target hanya elemen
+hero dan navigasi:
 
 ```html
 <!-- Wajib: Section hero atau section utama yang mau dianimasikan -->
@@ -91,6 +97,7 @@ Website target **harus memiliki** minimal elemen-elemen berikut agar addon bisa 
 ```
 
 **Catatan penting:**
+- HTML envelope **di-inject otomatis** oleh `envelope.js` — tidak perlu menambahkannya manual.
 - Teks hero **harus dipecah per huruf** dalam `<span class="letter">` agar animasi letter-by-letter berjalan. Lihat [Kustomisasi Teks](#kustomisasi-teks-dan-warna) untuk cara otomatis.
 
 ---
@@ -101,13 +108,13 @@ Website target **harus memiliki** minimal elemen-elemen berikut agar addon bisa 
 
 ```
 your-website/
-├── index.html          ← website kamu
+├── index.html          ← website kamu (hanya tambah 2 baris link/script)
 ├── css/
 │   └── styles.css      ← style website kamu
 │   └── envelope.css    ← style envelope (baru)
 ├── js/
 │   └── script.js       ← script website kamu
-│   └── envelope.js     ← script envelope (baru)
+│   └── envelope.js     ← script envelope (baru, self-injecting)
 └── assets/
     └── images/
         ├── envelope-top.png
@@ -130,58 +137,12 @@ Di `<head>` website target, tambahkan link ke `envelope.css` **sebelum** style u
 </head>
 ```
 
-### Langkah 3 — Tambahkan HTML overlay
-
-Letakkan blok HTML overlay sebagai **anak pertama dari `<body>`**, sebelum elemen apapun:
-
-```html
-<body>
-    <!-- Envelope Overlay -->
-    <div class="envelope-overlay" id="envelopeOverlay">
-        <div class="envelope-scene">
-            <div class="env-variant">
-                <div class="env-layer env-right">
-                    <img src="assets/images/envelope-right.png" alt="" decoding="auto">
-                </div>
-                <div class="env-layer env-left">
-                    <img src="assets/images/envelope-left.png" alt="" decoding="auto">
-                </div>
-                <div class="env-layer env-bottom">
-                    <img src="assets/images/envelope-bottom.png" alt="" decoding="auto">
-                </div>
-                <div class="env-layer env-top">
-                    <img src="assets/images/envelope-top.png" alt="" decoding="auto">
-                    <div class="env-invite-text">
-                        <h4 class="invite-heading" id="inviteText">
-                            <span class="word">
-                                <span class="letter">Y</span><span class="letter">o</span><span class="letter">u</span><span class="letter">'</span><span class="letter">r</span><span class="letter">e</span>
-                            </span>
-                            <span class="word">
-                                <span class="letter">i</span><span class="letter">n</span><span class="letter">v</span><span class="letter">i</span><span class="letter">t</span><span class="letter">e</span><span class="letter">d</span>
-                            </span>
-                            <span class="word">
-                                <span class="letter">t</span><span class="letter">o</span>
-                            </span>
-                        </h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Envelope Overlay -->
-
-    <!-- Konten utama website mulai dari sini -->
-    <nav class="main-nav" id="mainNav">...</nav>
-    <section class="hero" id="hero">...</section>
-</body>
-```
-
-### Langkah 4 — Tambahkan JS
+### Langkah 3 — Tambahkan JS
 
 Di akhir `<body>`, tambahkan script `envelope.js` **sebelum** script utama:
 
 ```html
-    <!-- Envelope Addon JS -->
+    <!-- Envelope Addon JS (self-injecting) -->
     <script src="js/envelope.js"></script>
 
     <!-- Script utama website -->
@@ -189,7 +150,11 @@ Di akhir `<body>`, tambahkan script `envelope.js` **sebelum** script utama:
 </body>
 ```
 
-### Langkah 5 — Pastikan CSS hero mendukung animasi
+**HTML overlay otomatis disuntikkan** oleh `envelope.js` — tidak perlu menambah
+blok HTML manual. Jika ingin menonaktifkan overlay, lihat
+[Menonaktifkan Overlay](#menonaktifkan-overlay).
+
+### Langkah 4 — Pastikan CSS hero mendukung animasi
 
 Tambahkan CSS berikut ke style utama website target:
 
@@ -405,37 +370,33 @@ Ubah CSS variables di `envelope.css`:
 
 ## Menonaktifkan Overlay
 
-### Cara 1 — Comment out HTML
+### Cara 1 — Flag di HTML (Recommended)
 
-Bungkus seluruh div overlay dengan komentar HTML:
-
-```html
-<!--
-<div class="envelope-overlay" id="envelopeOverlay">
-    ... (seluruh isi overlay)
-</div>
--->
-```
-
-Add-on otomatis menjalankan fallback animasi tanpa perlu ubah JS atau CSS.
-
-### Cara 2 — Hapus dari DOM via JS
-
-```js
-// Di script utama, sebelum DOMContentLoaded addon
-document.getElementById('envelopeOverlay')?.remove();
-```
-
-### Cara 3 — Tambah flag di HTML
+Tambahkan atribut `data-envelope="disabled"` di tag `<body>`:
 
 ```html
 <body data-envelope="disabled">
 ```
 
-Lalu di `envelope.js`, tambahkan pengecekan:
+`envelope.js` akan melewatkan injeksi HTML overlay dan langsung menjalankan
+animasi hero tanpa envelope. Tidak perlu mengubah file JS atau CSS.
+
+### Cara 2 — Hapus file JS
+
+Hapus atau comment out baris script di HTML target:
+
+```html
+<!-- <script src="js/envelope.js"></script> -->
+```
+
+### Cara 3 — Hapus dari DOM via JS
+
+Jika overlay sudah terlanjur di-inject dan ingin dihapus sebelum animasi:
 
 ```js
-if (document.body.dataset.envelope === 'disabled') {
+// Di script utama, sebelum DOMContentLoaded addon
+document.getElementById('envelopeOverlay')?.remove();
+```
     runFallbackAnimation();
     return;
 }

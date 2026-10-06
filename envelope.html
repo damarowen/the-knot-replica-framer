@@ -1,0 +1,44 @@
+<!-- ============================================================
+  ENVELOPE OVERLAY — Add-on HTML (Referensi)
+
+  Catatan: Dengan versi self-injecting (js/envelope.js), Anda
+  TIDAK PERLU menempel blok HTML ini secara manual. File ini
+  hanya referensi jika ingin kustomisasi struktur HTML secara
+  manual sebelum menggunakannya.
+
+  Jika tetap ingin HTML manual:
+    1. Copy blok di bawah ini ke <body> website target (anak pertama)
+    2. Matikan injeksi otomatis di envelope.js dengan mengubah
+       `const overlayReady = injectOverlay();` menjadi false
+       ATAU cukup biarkan — envelope.js mendeteksi jika HTML sudah ada.
+
+  Dokumentasi lengkap: ENVELOPE-ADDON.md
+  ============================================================ -->
+
+<!-- ENVELOPE ADDON START -->
+<div class="envelope-overlay" id="envelopeOverlay">
+    <div class="envelope-scene">
+        <div class="env-variant">
+            <div class="env-layer env-right">
+                <img src="assets/images/envelope-right.png" alt="" decoding="auto">
+            </div>
+            <div class="env-layer env-left">
+                <img src="assets/images/envelope-left.png" alt="" decoding="auto">
+            </div>
+            <div class="env-layer env-bottom">
+                <img src="assets/images/envelope-bottom.png" alt="" decoding="auto">
+            </div>
+            <div class="env-layer env-top">
+                <img src="assets/images/envelope-top.png" alt="" decoding="auto">
+                <div class="env-invite-text">
+                    <h4 class="invite-heading" id="inviteText">
+                        <span class="word"><span class="letter">Y</span><span class="letter">o</span><span class="letter">u</span><span class="letter">'</span><span class="letter">r</span><span class="letter">e</span></span>
+                        <span class="word"><span class="letter">i</span><span class="letter">n</span><span class="letter">v</span><span class="letter">i</span><span class="letter">t</span><span class="letter">e</span><span class="letter">d</span></span>
+                        <span class="word"><span class="letter">t</span><span class="letter">o</span></span>
+                    </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ENVELOPE ADDON END -->

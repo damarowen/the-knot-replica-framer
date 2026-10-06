@@ -7,35 +7,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+    <!-- Envelope Addon CSS -->
+    <link rel="stylesheet" href="css/envelope.css">
+    <!-- Style utama website -->
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <!-- Envelope Overlay -->
-    <div class="envelope-overlay" id="envelopeOverlay">
-        <div class="envelope-scene">
-            <div class="env-variant">
-                <div class="env-layer env-right">
-                    <img src="assets/images/envelope-right.png" alt="" decoding="auto">
-                </div>
-                <div class="env-layer env-left">
-                    <img src="assets/images/envelope-left.png" alt="" decoding="auto">
-                </div>
-                <div class="env-layer env-bottom">
-                    <img src="assets/images/envelope-bottom.png" alt="" decoding="auto">
-                </div>
-                <div class="env-layer env-top">
-                    <img src="assets/images/envelope-top.png" alt="" decoding="auto">
-                    <div class="env-invite-text">
-                        <h4 class="invite-heading" id="inviteText">
-                            <span class="word"><span class="letter">Y</span><span class="letter">o</span><span class="letter">u</span><span class="letter">'</span><span class="letter">r</span><span class="letter">e</span></span>
-                            <span class="word"><span class="letter">i</span><span class="letter">n</span><span class="letter">v</span><span class="letter">i</span><span class="letter">t</span><span class="letter">e</span><span class="letter">d</span></span>
-                            <span class="word"><span class="letter">t</span><span class="letter">o</span></span>
-                        </h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Envelope overlay di-inject otomatis oleh js/envelope.js -->
+    <!-- Untuk menonaktifkan: <body data-envelope="disabled"> -->
 
     <!-- Navigation -->
     <nav class="main-nav" id="mainNav">
@@ -342,6 +321,9 @@
         </footer>
     </main>
 
+    <!-- Envelope Addon JS -->
+    <script src="js/envelope.js"></script>
+    <!-- Script utama website -->
     <script src="js/script.js"></script>
 </body>
 </html>
